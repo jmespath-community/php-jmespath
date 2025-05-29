@@ -6,7 +6,6 @@ namespace JmesPathCommunity\Tests;
 
 use JmesPathCommunity\Context;
 use JmesPathCommunity\Parser;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

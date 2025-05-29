@@ -182,8 +182,7 @@ final class Parser
             TokenType::Plus, TokenType::Minus, TokenType::Multiply, TokenType::Star, TokenType::Divide, TokenType::Modulo, TokenType::Div =>
                 new Arithmetic($left, ArithmethicType::fromTokenType($current->type), $this->parseExpression($current->bindingPower())),
             TokenType::Lbracket => $this->parseBracketExpression($left),
-
-            default => throw new \Exception("Unhandled infix: {$current->type->name}, $left")
+            default => throw new \Exception("Unexpected infix token: {$current->type->name}")
         };
     }
 

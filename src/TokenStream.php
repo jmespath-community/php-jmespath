@@ -34,6 +34,9 @@ final class TokenStream
         return $result;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function match(TokenType ...$types): bool
     {
         if (in_array($this->current()->type, $types, true)) {
