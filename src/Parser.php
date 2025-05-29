@@ -2,66 +2,46 @@
 
 declare(strict_types=1);
 
-namespace JmesPath;
+namespace JmesPathCommunity;
 
-use JmesPath\node\AndExpression;
-use JmesPath\node\Arithmetic;
-use JmesPath\node\Binding;
-use JmesPath\node\Comparator;
-use JmesPath\node\CurrentNode;
-use JmesPath\node\ExpressionReference;
-use JmesPath\node\Field;
-use JmesPath\node\FilterProjection;
-use JmesPath\node\FunctionCallNode;
-use JmesPath\node\Identity;
-use JmesPath\node\Index;
-use JmesPath\node\IndexExpression;
-use JmesPath\node\LetExpression;
-use JmesPath\node\LiteralNode;
-use JmesPath\node\MultiselectHash;
-use JmesPath\node\MultiselectList;
-use JmesPath\node\NotExpression;
-use JmesPath\node\OrExpression;
-use JmesPath\node\Pipe;
-use JmesPath\node\Projection;
-use JmesPath\node\RootNode;
-use JmesPath\node\Slice;
-use JmesPath\node\Subexpression;
-use JmesPath\node\UnaryExpression;
-use JmesPath\node\ValueProjection;
-use JmesPath\node\Variable;
+use JmesPathCommunity\node\AndExpression;
+use JmesPathCommunity\node\Arithmetic;
+use JmesPathCommunity\node\Binding;
+use JmesPathCommunity\node\Comparator;
+use JmesPathCommunity\node\CurrentNode;
+use JmesPathCommunity\node\ExpressionReference;
+use JmesPathCommunity\node\Field;
+use JmesPathCommunity\node\FilterProjection;
+use JmesPathCommunity\node\FunctionCallNode;
+use JmesPathCommunity\node\Identity;
+use JmesPathCommunity\node\Index;
+use JmesPathCommunity\node\IndexExpression;
+use JmesPathCommunity\node\LetExpression;
+use JmesPathCommunity\node\LiteralNode;
+use JmesPathCommunity\node\MultiselectHash;
+use JmesPathCommunity\node\MultiselectList;
+use JmesPathCommunity\node\NotExpression;
+use JmesPathCommunity\node\OrExpression;
+use JmesPathCommunity\node\Pipe;
+use JmesPathCommunity\node\Projection;
+use JmesPathCommunity\node\RootNode;
+use JmesPathCommunity\node\Slice;
+use JmesPathCommunity\node\Subexpression;
+use JmesPathCommunity\node\UnaryExpression;
+use JmesPathCommunity\node\ValueProjection;
+use JmesPathCommunity\node\Variable;
 
-final class ModernParser
+final class Parser
 {
-    private int $indent = 0;
     private TokenStream $tokens;
-    public function __construct(private readonly bool $debug = true)
+    public function __construct()
     {
-    }
-
-    private function log(string $message): void
-    {
-        if (!$this->debug) {
-            return;
-        }
-
-        echo str_pad(string: '', length: $this->indent, pad_type: STR_PAD_LEFT);
-        echo str_pad($message, 50 - $this->indent);
-        if (!$this->tokens->eof()) {
-            echo str_pad($this->tokens->current()->type->name, 20 - $this->indent);
-        } else {
-            echo str_pad('EOF', 20 - $this->indent);
-        }
-        echo "dump: {$this->tokens->dump()}";
-
-
-        echo "\n";
     }
 
     public function parse(string $expression): NodeInterface
     {
         try {
-            $this->tokens = new ModernLexer()->tokenize($expression);
+            $this->tokens = new Lexer()->tokenize($expression);
         } catch (\Exception $e) {
             var_dump($expression);
             die();
@@ -75,12 +55,9 @@ final class ModernParser
         $left = $this->parsePrefix($leftToken);
 
         while ($rightBindingPower < $this->tokens->current()->type->bindingPower()) {
-            $this->log("Parsing next {$this->tokens->current()->type->name}");
             $left = $this->parseInfix($left);
-            $this->log("New left {$left}");
         }
 
-        $this->log("RETURN - $left");
         return $left;
     }
 
@@ -149,39 +126,32 @@ final class ModernParser
     }
     private function parsePrefix(Token $token): NodeInterface
     {
-        $this->log("BEGIN " . __FUNCTION__ . " --> {$token->type->name}");
-        $this->indent += 2;
-        try {
-            return match ($token->type) {
-                TokenType::Variable => new Variable($token->value),
-                TokenType::Literal => new LiteralNode($token->value),
-                TokenType::UnquotedIdentifier => ($token->value === 'let' && $this->tokens->peek(TokenType::Variable))
-                    ? $this->parseLetExpression()
-                    : new Field($token->value),
-                TokenType::QuotedIdentifier => $this->tokens->peek(TokenType::Lparen)
-                    ? throw new \RuntimeException('Syntax error: quoted identifier not allowed for function names')
-                    : new Field($token->value),
-                TokenType::Not => new NotExpression($this->parseExpression($token->bindingPower())),
-                TokenType::Minus => new UnaryExpression($this->parseExpression($token->bindingPower()), UnaryOperator::Minus),
-                TokenType::Plus => new UnaryExpression($this->parseExpression($token->bindingPower()), UnaryOperator::Plus),
-                TokenType::Star => new ValueProjection(new Identity(), $this->parseProjectionRHS($token->bindingPower())),
-                TokenType::Filter => $this->parseFilter(new Identity()),
-                TokenType::Lbrace => $this->parseMultiselectHash(),
-                TokenType::Flatten => new Projection(
-                    new UnaryExpression(new Identity(), UnaryOperator::Flatten),
-                    $this->parseProjectionRHS($token->bindingPower())
-                ),
-                TokenType::Lbracket => $this->parsePrefixLBracket(),
-                TokenType::Current => new CurrentNode(),
-                TokenType::Root => new RootNode(),
-                TokenType::Expref => new ExpressionReference($this->parseExpression($token->bindingPower())),
-                TokenType::Lparen => $this->parseGroupedExpression(),
-                default => throw new \Exception("Unexpected token prefix: {$token->type->name} - {$token->value}" . $this->tokens->dump()),
-            };
-        } finally {
-            $this->indent -= 2;
-            $this->log("END " . __FUNCTION__);
-        }
+        return match ($token->type) {
+            TokenType::Variable => new Variable($token->value),
+            TokenType::Literal => new LiteralNode($token->value),
+            TokenType::UnquotedIdentifier => ($token->value === 'let' && $this->tokens->peek(TokenType::Variable))
+                ? $this->parseLetExpression()
+                : new Field($token->value),
+            TokenType::QuotedIdentifier => $this->tokens->peek(TokenType::Lparen)
+                ? throw new \RuntimeException('Syntax error: quoted identifier not allowed for function names')
+                : new Field($token->value),
+            TokenType::Not => new NotExpression($this->parseExpression($token->bindingPower())),
+            TokenType::Minus => new UnaryExpression($this->parseExpression($token->bindingPower()), UnaryOperator::Minus),
+            TokenType::Plus => new UnaryExpression($this->parseExpression($token->bindingPower()), UnaryOperator::Plus),
+            TokenType::Star => new ValueProjection(new Identity(), $this->parseProjectionRHS($token->bindingPower())),
+            TokenType::Filter => $this->parseFilter(new Identity()),
+            TokenType::Lbrace => $this->parseMultiselectHash(),
+            TokenType::Flatten => new Projection(
+                new UnaryExpression(new Identity(), UnaryOperator::Flatten),
+                $this->parseProjectionRHS($token->bindingPower())
+            ),
+            TokenType::Lbracket => $this->parsePrefixLBracket(),
+            TokenType::Current => new CurrentNode(),
+            TokenType::Root => new RootNode(),
+            TokenType::Expref => new ExpressionReference($this->parseExpression($token->bindingPower())),
+            TokenType::Lparen => $this->parseGroupedExpression(),
+            default => throw new \Exception("Unexpected token prefix: {$token->type->name} - {$token->value}" . $this->tokens->dump()),
+        };
     }
 
     private function parseFilter(NodeInterface $left): FilterProjection
@@ -199,29 +169,22 @@ final class ModernParser
     private function parseInfix(NodeInterface $left): NodeInterface
     {
         $current = $this->tokens->advance();
-        $this->log("BEGIN " . __FUNCTION__ . " --> {$current->type->name} -- {$left}");
-        $this->indent += 2;
-        try {
-            return match ($current->type) {
-                TokenType::Dot => $this->parseDot($left),
-                TokenType::Pipe => new Pipe($left, $this->parseExpression($current->bindingPower())),
-                TokenType::Or => new OrExpression($left, $this->parseExpression($current->bindingPower())),
-                TokenType::And => new AndExpression($left, $this->parseExpression($current->bindingPower())),
-                TokenType::Lparen => $this->parseFunctionCall($left),
-                TokenType::Filter => $this->parseFilter($left),
-                TokenType::Flatten => new Projection(new UnaryExpression($left, UnaryOperator::Flatten), $this->parseProjectionRHS($current->bindingPower())),
-                TokenType::EQ, TokenType::NE, TokenType::GT, TokenType::GTE, TokenType::LT, TokenType::LTE =>
-                    new Comparator($left, ComparatorType::fromTokenType($current->type), $this->parseExpression($current->bindingPower())),
-                TokenType::Plus, TokenType::Minus, TokenType::Multiply, TokenType::Star, TokenType::Divide, TokenType::Modulo, TokenType::Div =>
-                    new Arithmetic($left, ArithmethicType::fromTokenType($current->type), $this->parseExpression($current->bindingPower())),
-                TokenType::Lbracket => $this->parseBracketExpression($left),
+        return match ($current->type) {
+            TokenType::Dot => $this->parseDot($left),
+            TokenType::Pipe => new Pipe($left, $this->parseExpression($current->bindingPower())),
+            TokenType::Or => new OrExpression($left, $this->parseExpression($current->bindingPower())),
+            TokenType::And => new AndExpression($left, $this->parseExpression($current->bindingPower())),
+            TokenType::Lparen => $this->parseFunctionCall($left),
+            TokenType::Filter => $this->parseFilter($left),
+            TokenType::Flatten => new Projection(new UnaryExpression($left, UnaryOperator::Flatten), $this->parseProjectionRHS($current->bindingPower())),
+            TokenType::EQ, TokenType::NE, TokenType::GT, TokenType::GTE, TokenType::LT, TokenType::LTE =>
+                new Comparator($left, ComparatorType::fromTokenType($current->type), $this->parseExpression($current->bindingPower())),
+            TokenType::Plus, TokenType::Minus, TokenType::Multiply, TokenType::Star, TokenType::Divide, TokenType::Modulo, TokenType::Div =>
+                new Arithmetic($left, ArithmethicType::fromTokenType($current->type), $this->parseExpression($current->bindingPower())),
+            TokenType::Lbracket => $this->parseBracketExpression($left),
 
-                default => throw new \Exception("Unhandled infix: {$current->type->name}, $left")
-            };
-        } finally {
-            $this->indent -= 2;
-            $this->log("END " . __FUNCTION__);
-        }
+            default => throw new \Exception("Unhandled infix: {$current->type->name}, $left")
+        };
     }
 
     private function parseGroupedExpression(): NodeInterface
@@ -279,16 +242,11 @@ final class ModernParser
     }
     private function parseDot(NodeInterface $left): NodeInterface
     {
-        $this->log("BEGIN " . __FUNCTION__);
-        try {
-            // Handle .*
-            if ($this->tokens->match(TokenType::Star)) {
-                return new ValueProjection($left, $this->parseProjectionRHS(TokenType::Dot->bindingPower()));
-            } else {
-                return new Subexpression($left, $this->parseDotRHS(TokenType::Dot->bindingPower()));
-            }
-        } finally {
-            $this->log("END " . __FUNCTION__);
+        // Handle .*
+        if ($this->tokens->match(TokenType::Star)) {
+            return new ValueProjection($left, $this->parseProjectionRHS(TokenType::Dot->bindingPower()));
+        } else {
+            return new Subexpression($left, $this->parseDotRHS(TokenType::Dot->bindingPower()));
         }
     }
 

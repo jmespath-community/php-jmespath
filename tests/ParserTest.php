@@ -1,14 +1,17 @@
 <?php
 
-use JmesPath\Context;
-use JmesPath\ModernParser;
-use JmesPath\Tests\CaseProvider;
+declare(strict_types=1);
+
+namespace JmesPathCommunity\Tests;
+
+use JmesPathCommunity\Context;
+use JmesPathCommunity\Parser;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ModernParser::class)]
-final class ModernParserTest extends TestCase
+#[CoversClass(Parser::class)]
+final class ParserTest extends TestCase
 {
     public static function expressionProvider(): iterable
     {
@@ -34,7 +37,7 @@ final class ModernParserTest extends TestCase
     #[DataProvider('astProvider')]
     public function testCreateAst(string $expression, mixed $expected): void
     {
-        $p = new ModernParser(false);
+        $p = new Parser();
 
         $parsed = $p->parse($expression);
 
@@ -45,8 +48,7 @@ final class ModernParserTest extends TestCase
     #[DataProvider('expressionProvider')]
     public function testEvaluatesCorrectly(string $expression, array|null $given, mixed $expected): void
     {
-        //        echo "Evaluating $expression\n";
-        $p = new ModernParser(false);
+        $p = new Parser();
 
         $parsed = $p->parse($expression);
         $result = $parsed->evaluate(new Context($given));

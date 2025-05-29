@@ -1,12 +1,13 @@
 <?php
 
-use JmesPath\ModernLexer;
-use JmesPath\Tests\CaseProvider;
+namespace JmesPathCommunity\Tests;
+
+use JmesPathCommunity\Lexer;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ModernLexer::class)]
+#[CoversClass(Lexer::class)]
 final class ModernLexerTest extends TestCase
 {
     public static function validExpressionProvider(): iterable
@@ -23,7 +24,7 @@ final class ModernLexerTest extends TestCase
     #[DataProvider('validExpressionProvider')]
     public function testHandlesValidExpressions(string $expression, array $tokens): void
     {
-        $tokenstream = new ModernLexer()->tokenize($expression);
+        $tokenstream = new Lexer()->tokenize($expression);
 
 
         self::assertSame($tokens, $tokenstream->toArray());

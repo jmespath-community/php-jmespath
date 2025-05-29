@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace JmesPath\node;
+namespace JmesPathCommunity\node;
 
-use JmesPath\Context;
-use JmesPath\NodeInterface;
-use JmesPath\UnaryOperator;
+use JmesPathCommunity\Context;
+use JmesPathCommunity\NodeInterface;
+use JmesPathCommunity\UnaryOperator;
 
 final readonly class UnaryExpression implements NodeInterface
 {

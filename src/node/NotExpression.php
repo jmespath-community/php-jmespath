@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace JmesPath\node;
+namespace JmesPathCommunity\node;
 
-use JmesPath\Context;
-use JmesPath\NodeInterface;
+use JmesPathCommunity\Context;
+use JmesPathCommunity\NodeInterface;
 
 final readonly class NotExpression implements NodeInterface
 {

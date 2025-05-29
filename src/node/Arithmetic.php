@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace JmesPath\node;
+namespace JmesPathCommunity\node;
 
-use JmesPath\ArithmethicType;
-use JmesPath\Context;
-use JmesPath\NodeInterface;
+use JmesPathCommunity\ArithmethicType;
+use JmesPathCommunity\Context;
+use JmesPathCommunity\NodeInterface;
 
 final readonly class Arithmetic implements NodeInterface
 {

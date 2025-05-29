@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace JmesPath;
+namespace JmesPathCommunity;
 
-namespace JmesPath;
+namespace JmesPathCommunity;
 
-use JmesPath\node\Variable;
+use JmesPathCommunity\node\Variable;
 
 final class Context
 {

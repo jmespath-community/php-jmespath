@@ -1,11 +1,11 @@
 <?php
 
-namespace JmesPath;
+namespace JmesPathCommunity;
 
 /**
  * Tokenizes JMESPath expressions
  */
-final readonly class ModernLexer
+final readonly class Lexer
 {
     /**
      * @param string $input

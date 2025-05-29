@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace JmesPath\node;
+namespace JmesPathCommunity\node;
 
-use JmesPath\ComparatorType;
-use JmesPath\Context;
-use JmesPath\NodeInterface;
+use JmesPathCommunity\ComparatorType;
+use JmesPathCommunity\Context;
+use JmesPathCommunity\NodeInterface;
 
 final readonly class Comparator implements NodeInterface
 {
