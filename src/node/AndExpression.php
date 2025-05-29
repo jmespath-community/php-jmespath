@@ -42,11 +42,6 @@ final readonly class AndExpression implements NodeInterface
         return $left;
     }
 
-    public function __toString()
-    {
-        return "And({$this->left}, {$this->right})";
-    }
-
     public function toArray(): array
     {
         return [

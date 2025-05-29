@@ -9,11 +9,6 @@ use JmesPathCommunity\NodeInterface;
 
 final readonly class Identity implements NodeInterface
 {
-    public function __toString(): string
-    {
-        return "Identity";
-    }
-
     public function evaluate(Context $context): array|string|null|float|bool|int
     {
         return $context->current();

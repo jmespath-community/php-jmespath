@@ -18,10 +18,6 @@ final readonly class CurrentNode implements NodeInterface
     {
         return $context->current();
     }
-    public function __toString()
-    {
-        return '@';
-    }
 
     public function toArray(): array
     {

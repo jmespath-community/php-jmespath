@@ -21,11 +21,6 @@ final readonly class LiteralNode implements NodeInterface
         return $this->value;
     }
 
-    public function __toString()
-    {
-        return "Literal: " . json_encode($this->value, JSON_THROW_ON_ERROR);
-    }
-
     /**
      * @return array{type: "Literal", value: mixed}
      */

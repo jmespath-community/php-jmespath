@@ -40,11 +40,6 @@ final readonly class UnaryExpression implements NodeInterface
         return $result;
     }
 
-    public function __toString()
-    {
-        return "{$this->operator->name}({$this->child})";
-    }
-
     public function toArray(): array
     {
         if ($this->operator === UnaryOperator::Flatten) {

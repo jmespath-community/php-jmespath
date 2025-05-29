@@ -40,11 +40,6 @@ final readonly class Projection implements NodeInterface
         }
         return $result;
     }
-    public function __toString()
-    {
-        return "Projection({$this->left}, {$this->right})";
-    }
-
     public function toArray(): array
     {
         return [

@@ -28,10 +28,6 @@ final readonly class Arithmetic implements NodeInterface
             ArithmethicType::Star => $left * $right,
         };
     }
-    public function __toString()
-    {
-        return "Arithmethic {$this->operator->name}({$this->left}, {$this->right})";
-    }
 
     public function toArray(): array
     {

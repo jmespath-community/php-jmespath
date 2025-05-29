@@ -24,10 +24,6 @@ final readonly class Field implements NodeInterface
         return is_array($base) ? $base[$this->value] ?? null : null;
     }
 
-    public function __toString()
-    {
-        return "\${$this->value}";
-    }
 
     /**
      * @return array{type: "Field", name: string}

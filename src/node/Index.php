@@ -25,11 +25,6 @@ final readonly class Index implements NodeInterface
         return null;
     }
 
-    public function __toString()
-    {
-        return "Index({$this->index})";
-    }
-
     public function toArray(): array
     {
         return [

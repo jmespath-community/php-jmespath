@@ -68,10 +68,6 @@ final readonly class Comparator implements NodeInterface
             ComparatorType::NE => !$this->jmespathEquals($left, $right),
         };
     }
-    public function __toString()
-    {
-        return "Comparator {$this->operator->name}({$this->left}, {$this->right})";
-    }
 
     public function toArray(): array
     {

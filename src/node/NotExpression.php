@@ -34,11 +34,6 @@ final readonly class NotExpression implements NodeInterface
         return true;
     }
 
-    public function __toString()
-    {
-        return "Inverse of {$this->expression}";
-    }
-
     /**
      * @return array{type: "NotExpression", child: array{type: string}}
      */

@@ -21,11 +21,6 @@ final readonly class MultiselectHash implements NodeInterface
         return array_map(fn (NodeInterface $node) => $node->evaluate($context), $this->children);
     }
 
-    public function __toString()
-    {
-        return ' TODO HASH NODE';
-    }
-
     /**
      * @return array{children: list<array{value: mixed, type:"KeyValuePair", name: string}>}
      */

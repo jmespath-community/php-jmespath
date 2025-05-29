@@ -31,11 +31,6 @@ final readonly class ValueProjection implements NodeInterface
         }
         return $result;
     }
-    public function __toString()
-    {
-        return "OP({$this->left}, {$this->right})";
-    }
-
     public function toArray(): array
     {
         return [

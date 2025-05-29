@@ -62,11 +62,6 @@ final readonly class Slice implements NodeInterface
         return $resultAsString ? implode('', $result) : $result;
     }
 
-    public function __toString()
-    {
-        return "Slice({$this->start}:{$this->stop}:{$this->step})";
-    }
-
     public function toArray(): array
     {
         return [

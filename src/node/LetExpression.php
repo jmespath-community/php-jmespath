@@ -15,12 +15,6 @@ final readonly class LetExpression implements NodeInterface
     {
     }
 
-
-    public function __toString(): string
-    {
-        return "let some bindings in {$this->expression}";
-    }
-
     /**
      * @return array<mixed>|string|float|bool|int|null
      */

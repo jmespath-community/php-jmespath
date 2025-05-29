@@ -27,12 +27,6 @@ final readonly class Binding implements NodeInterface
             'variable' => $this->variable->name,
         ];
     }
-
-    public function __toString()
-    {
-        return "Binding({$this->variable} := {$this->reference})";
-    }
-
     public function name(): string
     {
         return $this->variable->name;

@@ -13,11 +13,6 @@ final readonly class IndexExpression implements NodeInterface
     {
     }
 
-    public function getChildren(): array
-    {
-        return [$this->left, $this->right];
-    }
-
     private function isTruthy(mixed $value): bool
     {
         if ($value === null) {
@@ -45,11 +40,6 @@ final readonly class IndexExpression implements NodeInterface
             return $result;
         }
         return null;
-    }
-
-    public function __toString()
-    {
-        return "IndexExpression({$this->left}, {$this->right})";
     }
 
     public function toArray(): array

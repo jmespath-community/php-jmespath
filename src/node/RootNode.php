@@ -13,11 +13,6 @@ final readonly class RootNode implements NodeInterface
     {
         return $context->root();
     }
-    public function __toString()
-    {
-        return '$';
-    }
-
     public function toArray(): array
     {
         return [

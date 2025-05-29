@@ -7,7 +7,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Lexer::class)]
 final class ModernLexerTest extends TestCase
 {
     public static function validExpressionProvider(): iterable

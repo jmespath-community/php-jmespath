@@ -21,11 +21,6 @@ final readonly class OrExpression implements NodeInterface
         }
         return $left;
     }
-    public function __toString()
-    {
-        return "Or({$this->left}, {$this->right})";
-    }
-
     /**
      * @return array{left: array{type: string}, right: array{type: string}, type: "OrExpression"}
      */

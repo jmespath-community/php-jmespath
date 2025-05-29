@@ -25,12 +25,6 @@ final readonly class Subexpression implements NodeInterface
         return null;
     }
 
-    public function __toString()
-    {
-        return "Subexpression({$this->left}, {$this->right})";
-    }
-
-
     public function toArray(): array
     {
         return [

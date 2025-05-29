@@ -21,11 +21,6 @@ final readonly class Pipe implements NodeInterface
         $context->popCurrent();
         return $right;
     }
-    public function __toString()
-    {
-        return "Pipe({$this->left}, {$this->right})";
-    }
-
     public function toArray(): array
     {
         return [

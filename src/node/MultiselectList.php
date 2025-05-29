@@ -29,11 +29,6 @@ final readonly class MultiselectList implements NodeInterface
         return $result;
     }
 
-    public function __toString()
-    {
-        return "List: " . implode(', ', array_map(fn (NodeInterface $node) => $node, $this->children));
-    }
-
     /**
      * @return array{type: "MultiSelectList", children: list<array{type: string}>}
      */

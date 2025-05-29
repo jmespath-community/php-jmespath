@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JmesPathCommunity;
 
-class Reader
+final class Reader
 {
     private int $position = 0;
     private readonly int $length;

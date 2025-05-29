@@ -21,11 +21,6 @@ final readonly class ExpressionReference implements NodeInterface
         };
     }
 
-    public function __toString()
-    {
-        return "Expression reference: {$this->expression}";
-    }
-
     public function toArray(): array
     {
         return [

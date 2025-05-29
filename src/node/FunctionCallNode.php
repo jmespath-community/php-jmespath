@@ -84,12 +84,6 @@ final readonly class FunctionCallNode implements NodeInterface
         return $result;
     }
 
-    public function __toString()
-    {
-        $args = implode(', ', $this->args);
-        return strtoupper($this->name) . "({$args})";
-    }
-
     /**
      * @param list<int|float> $values
      * @return int|float

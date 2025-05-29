@@ -53,10 +53,6 @@ final readonly class FilterProjection implements NodeInterface
         return $result;
     }
 
-    public function __toString()
-    {
-        return "FilterProjection({$this->left}, {$this->right})";
-    }
 
     public function toArray(): array
     {
