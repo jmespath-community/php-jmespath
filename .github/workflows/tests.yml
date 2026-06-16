@@ -7,7 +7,7 @@ on:
 jobs:
   tests_linux:
     name: PHP ${{ matrix.php }} Linux
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         php: ['8.4', '8.5']
