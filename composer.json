@@ -37,11 +37,11 @@
             "package": {
                 "name": "jmespath-community/jmespath.test",
                 "version": "1.2.3",
-                "type": "drupal-theme",
+                "type": "git",
                 "source": {
                     "url": "git@github.com:jmespath-community/jmespath.test.git",
                     "type": "git",
-                    "reference": "main"
+                    "reference": "edd3251d123a6cbde52af7763d32cde39014da69"
                 }
             }
         }

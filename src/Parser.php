@@ -40,12 +40,7 @@ final class Parser
 
     public function parse(string $expression): NodeInterface
     {
-        try {
-            $this->tokens = new Lexer()->tokenize($expression);
-        } catch (\Exception $e) {
-            var_dump($expression);
-            die();
-        }
+        $this->tokens = new Lexer()->tokenize($expression);
         return $this->parseExpression(0);
     }
 

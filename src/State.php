@@ -56,7 +56,7 @@ enum State
             '"' => self::QuotedIdentifier,
             "'" => self::RawString,
             "[" => self::LBracket,
-            default => die("Unexpected state token: $char\n"),
+            default => throw new \Exception("Unexpected state token: $char\n"),
         };
     }
 }
