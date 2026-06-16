@@ -38,6 +38,7 @@ enum TokenType
     case Flatten;
     case Star;
     case Filter;
+    case Question;
     case Dot;
     case Not;
     case Lbrace;
@@ -49,6 +50,7 @@ enum TokenType
     {
         // See https://github.com/jmespath-community/typescript-jmespath/blob/main/src/Lexer.ts#L6
         return match ($char) {
+            "?" => self::Question,
             "(" => self::Lparen,
             ")" => self::Rparen,
             "*" => self::Star,
@@ -83,6 +85,7 @@ enum TokenType
             self::Multiply, self::Modulo, self::Divide, self::Div => 7,
             self::Plus, self::Minus => 6,
             self::NE, self::LTE, self::GTE, self::LT, self::GT, self::EQ => 5,
+            self::Question => 2,
             self::And => 3,
             self::Or => 2,
             self::Pipe, self::Assign => 1,
