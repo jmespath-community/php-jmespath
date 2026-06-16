@@ -35,7 +35,7 @@ final readonly class NotExpression implements NodeInterface
     }
 
     /**
-     * @return array{type: "NotExpression", child: array{type: string}}
+     * @return array{child: array{type: string}, type: "NotExpression"}
      */
     public function toArray(): array
     {

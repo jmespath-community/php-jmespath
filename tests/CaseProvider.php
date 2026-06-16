@@ -34,13 +34,7 @@ final readonly class CaseProvider
     {
         foreach (self::cases() as $case) {
             if (isset($case['result'])) {
-                //                if ($case['expression'] !== 'foo[*].bar[0]'
-                //                    || $case['given'] != ['foo' => [
-                //                        ['bar' => []],
-                //                        ['bar' => []],
-                //                        ['bar' => []],
-                //                    ]]
-                //                ) {
+                //                if (!str_starts_with($case['expression'], 'sum([z, sum([y,')) {
                 //                    continue;
                 //                }
                 yield $case;
@@ -72,24 +66,14 @@ final readonly class CaseProvider
                 die();
             }
             fflush($pipes[0]);
-            $result = json_decode(fgets($pipes[1]), associative: true, flags: JSON_THROW_ON_ERROR);
+            $read = fgets($pipes[1]);
+            $result = json_decode($read, associative: true, flags: JSON_THROW_ON_ERROR);
             if ($result['expression'] !== $case['expression']) {
                 throw new \RuntimeException("Expression got malformed: {$result['expression']} -- {$case['expression']}");
             }
-
-            $recursiveSort = function (array $array, $recursor) {
-                ksort($array);
-                foreach ($array as $key => $value) {
-                    if (is_array($value)) {
-                        $array[$key] = $recursor($value, $recursor);
-                    }
-                }
-                return $array;
-            };
-
             yield [
                 ...$case,
-                'ast' => $recursiveSort($result['ast'], $recursiveSort),
+                'ast' => self::recursiveSort($result['ast']),
                 'tokens' => array_map(fn (array $token) => [
                     // We're ignoring start for now since it is hard to calculate for JS due to unicode multi plane quantum physics.
                     // 'start' => $token['start'],
@@ -99,5 +83,16 @@ final readonly class CaseProvider
             ];
         }
         proc_close($proc);
+    }
+
+    private static function recursiveSort(array $array): array
+    {
+        ksort($array);
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $array[$key] = self::recursiveSort($value);
+            }
+        }
+        return $array;
     }
 }

@@ -14,17 +14,17 @@ final readonly class UnaryExpression implements NodeInterface
     {
     }
 
-    public function evaluate(Context $context): array|string|null|float|bool|int
+    public function evaluate(Context $context): array|null|float|int
     {
         $operand = $this->child->evaluate($context);
         return match ($this->operator) {
             UnaryOperator::Flatten => $this->flatten($operand),
-            UnaryOperator::Minus => -1 * $operand,
-            UnaryOperator::Plus => 1 * $operand,
+            UnaryOperator::Minus => $this->minus($operand),
+            UnaryOperator::Plus => $this->plus($operand),
         };
     }
 
-    private function flatten(null|array $value): array|null
+    private function flatten(array|bool|float|int|string|null $value): array|null
     {
         if (!is_array($value)) {
             return null;
@@ -55,5 +55,21 @@ final readonly class UnaryExpression implements NodeInterface
 
 
         ];
+    }
+
+    private function minus(float|int|bool|array|string|null $operand): int|float
+    {
+        if (is_int($operand) || is_float($operand)) {
+            return -1 * $operand;
+        }
+        throw new \RuntimeException('not-a-number');
+    }
+
+    private function plus(float|int|bool|array|string|null $operand): int|float
+    {
+        if (is_int($operand) || is_float($operand)) {
+            return 1 * $operand;
+        }
+        throw new \RuntimeException('not-a-number');
     }
 }

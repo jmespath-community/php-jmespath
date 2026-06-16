@@ -52,6 +52,7 @@ final class ParserTest extends TestCase
         $result = $parsed->evaluate(new Context($given));
         if ($result != $expected) {
             echo json_encode([
+                'class' => get_class($parsed),
                 'expr' => $expression,
                 'given' => $given,
                 'expected' => $expected,

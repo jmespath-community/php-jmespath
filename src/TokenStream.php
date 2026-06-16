@@ -27,6 +27,9 @@ final class TokenStream
         return $this->tokens[$this->position];
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function advance(): Token
     {
         $result = $this->current();
@@ -46,6 +49,9 @@ final class TokenStream
         return false;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function expect(TokenType ...$types): Token
     {
         if (!in_array($this->current()->type, $types)) {

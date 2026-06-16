@@ -13,12 +13,15 @@ final readonly class ExpressionReference implements NodeInterface
     {
     }
 
-    public function evaluate(Context $context): \Closure
+    public function evaluate(Context $context): never
     {
-        return function (mixed $value) {
-            $context = new Context($value);
-            return $this->expression->evaluate($context);
-        };
+        throw new \RuntimeException('Cannot evaluate ExpressionReference directly');
+    }
+
+    public function getClosure(): \Closure
+    {
+        $expression = $this->expression;
+        return static fn (array|string|null|float|bool $value) => $expression->evaluate(new Context($value));
     }
 
     public function toArray(): array

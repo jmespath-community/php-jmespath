@@ -14,10 +14,13 @@ final readonly class Arithmetic implements NodeInterface
     {
     }
 
-    public function evaluate(Context $context): array|string|null|float|bool|int
+    public function evaluate(Context $context): float|int
     {
         $left = $this->left->evaluate($context);
         $right = $this->right->evaluate($context);
+        if (!(is_int($left) || is_float($left)) || !(is_int($right) || is_float($right))) {
+            throw new \RuntimeException('Arithmetic operators only work on numbers');
+        }
         return match ($this->operator) {
             ArithmethicType::Modulo => $left % $right,
             ArithmethicType::Div => floor($left / $right),

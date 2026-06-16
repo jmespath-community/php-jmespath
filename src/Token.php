@@ -18,10 +18,12 @@ final readonly class Token
         return $this->type->bindingPower();
     }
 
+    /**
+     * @return array{type: string, value: mixed}
+     */
     public function toArray(): array
     {
         return [
-//            'start' => $this->position,
             'type' => $this->type->name,
             'value' => $this->value,
         ];

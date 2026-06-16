@@ -14,7 +14,11 @@ final class Reader
     public function __construct(
         string $buffer
     ) {
-        $this->buffer = preg_split(pattern: '//u', subject: $buffer, flags: PREG_SPLIT_NO_EMPTY);
+        $characters = preg_split(pattern: '//u', subject: $buffer, flags: PREG_SPLIT_NO_EMPTY);
+        if ($characters === false) {
+            throw new \RuntimeException('Failed to split string into characters');
+        }
+        $this->buffer = $characters;
         $this->length = count($this->buffer);
     }
 
@@ -69,7 +73,11 @@ final class Reader
             $character = $this->consume();
             // closing quote ends the string
             if ($character === $quoteChar) {
-                return json_decode('"' . $value . '"', flags: JSON_THROW_ON_ERROR);
+                $result = json_decode('"' . $value . '"', flags: JSON_THROW_ON_ERROR);
+                if (is_string($result)) {
+                    return $result;
+                }
+                throw new \RuntimeException('Quoted identifiers MUST resolve to strings after json_decode');
             }
 
             // handle backslash escapes

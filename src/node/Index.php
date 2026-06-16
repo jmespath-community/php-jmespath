@@ -6,6 +6,8 @@ namespace JmesPathCommunity\node;
 
 use JmesPathCommunity\Context;
 use JmesPathCommunity\NodeInterface;
+use JmesPathCommunity\Token;
+use JmesPathCommunity\TokenType;
 
 final readonly class Index implements NodeInterface
 {
@@ -31,5 +33,13 @@ final readonly class Index implements NodeInterface
             'type' => 'Index',
             'value' => $this->index,
         ];
+    }
+
+    public static function fromToken(Token $token): Index
+    {
+        if ($token->type === TokenType::Number && is_int($token->value)) {
+            return new Index($token->value);
+        }
+        throw new \InvalidArgumentException('Token type must be Number and its value must be integer');
     }
 }

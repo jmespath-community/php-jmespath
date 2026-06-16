@@ -61,11 +61,11 @@ final class Parser
         return $left;
     }
 
-    private function parseSlice(int|null $start = null): Slice
+    private function parseSlice(Token|null $start = null): Slice
     {
         $params = [];
         if (isset($start)) {
-            $params['start'] = $start;
+            $params['start'] = $start->value;
         }
 
         if ($this->tokens->peek(TokenType::Number)) {
@@ -91,14 +91,14 @@ final class Parser
         }
 
 
-        $number = $this->tokens->expect(TokenType::Number)->value;
+        $number = $this->tokens->expect(TokenType::Number);
         if ($this->tokens->match(TokenType::Colon)) {
             // Handle [start:stop] or [start:stop:step]
             return $this->parseSlice(start: $number);
         }
 
         $this->tokens->expect(TokenType::Rbracket);
-        return new Index($number);
+        return Index::fromToken($number);
     }
     private function parseBracketExpression(NodeInterface $left): NodeInterface
     {

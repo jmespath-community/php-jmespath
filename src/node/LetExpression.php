@@ -32,7 +32,7 @@ final readonly class LetExpression implements NodeInterface
     }
 
     /**
-     * @return array{expression: array{type: string}, type: "LetExpression", bindings: list<array{type: string}>}
+     * @return array{bindings: list<array{type: string}>, expression: array{type: string}, type: "LetExpression"}
      */
     public function toArray(): array
     {

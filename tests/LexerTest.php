@@ -6,7 +6,7 @@ use JmesPathCommunity\Lexer;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-final class ModernLexerTest extends TestCase
+final class LexerTest extends TestCase
 {
     public static function validExpressionProvider(): iterable
     {

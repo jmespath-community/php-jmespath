@@ -22,7 +22,7 @@ final readonly class MultiselectHash implements NodeInterface
     }
 
     /**
-     * @return array{children: list<array{value: mixed, type:"KeyValuePair", name: string}>}
+     * @return array{children: list<array{value: array{type: string}, type:"KeyValuePair", name: string}>}
      */
     public function toArray(): array
     {

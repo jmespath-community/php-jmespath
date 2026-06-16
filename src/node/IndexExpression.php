@@ -9,7 +9,7 @@ use JmesPathCommunity\NodeInterface;
 
 final readonly class IndexExpression implements NodeInterface
 {
-    public function __construct(public NodeInterface $left, public NodeInterface $right)
+    public function __construct(public NodeInterface $left, public Slice|Index $right)
     {
     }
 

@@ -10,7 +10,7 @@ use JmesPathCommunity\NodeInterface;
 final readonly class MultiselectList implements NodeInterface
 {
     /**
-     * @param NodeInterface[] $children
+     * @param list<NodeInterface> $children
      */
     public function __construct(private array $children)
     {
@@ -30,7 +30,7 @@ final readonly class MultiselectList implements NodeInterface
     }
 
     /**
-     * @return array{type: "MultiSelectList", children: list<array{type: string}>}
+     * @return array{children: list<array{type: string}>, type: "MultiSelectList"}
      */
     public function toArray(): array
     {
