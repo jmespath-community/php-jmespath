@@ -41,7 +41,7 @@
                 "source": {
                     "url": "git@github.com:jmespath-community/jmespath.test.git",
                     "type": "git",
-                    "reference": "edd3251d123a6cbde52af7763d32cde39014da69"
+                    "reference": "main"
                 }
             }
         }

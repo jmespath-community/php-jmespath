@@ -27,6 +27,7 @@ use JmesPathCommunity\node\Projection;
 use JmesPathCommunity\node\RootNode;
 use JmesPathCommunity\node\Slice;
 use JmesPathCommunity\node\Subexpression;
+use JmesPathCommunity\node\Ternary;
 use JmesPathCommunity\node\UnaryExpression;
 use JmesPathCommunity\node\ValueProjection;
 use JmesPathCommunity\node\Variable;
@@ -169,6 +170,7 @@ final class Parser
             TokenType::Pipe => new Pipe($left, $this->parseExpression($current->bindingPower())),
             TokenType::Or => new OrExpression($left, $this->parseExpression($current->bindingPower())),
             TokenType::And => new AndExpression($left, $this->parseExpression($current->bindingPower())),
+            TokenType::Question => $this->parseTernary($left),
             TokenType::Lparen => $this->parseFunctionCall($left),
             TokenType::Filter => $this->parseFilter($left),
             TokenType::Flatten => new Projection(new UnaryExpression($left, UnaryOperator::Flatten), $this->parseProjectionRHS($current->bindingPower())),
@@ -186,6 +188,14 @@ final class Parser
         $expr = $this->parseExpression();
         $this->tokens->expect(TokenType::Rparen);
         return $expr;
+    }
+
+    private function parseTernary(NodeInterface $condition): Ternary
+    {
+        $trueExpr = $this->parseExpression(0);
+        $this->tokens->expect(TokenType::Colon);
+        $falseExpr = $this->parseExpression(0);
+        return new Ternary($condition, $trueExpr, $falseExpr);
     }
 
     private function parseFunctionCall(NodeInterface $left): NodeInterface
