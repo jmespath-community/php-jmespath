@@ -34,9 +34,6 @@ final readonly class CaseProvider
     {
         foreach (self::cases() as $case) {
             if (isset($case['result'])) {
-                //                if (!str_starts_with($case['expression'], 'sum([z, sum([y,')) {
-                //                    continue;
-                //                }
                 yield $case;
             }
         }

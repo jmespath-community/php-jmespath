@@ -10,22 +10,19 @@ jobs:
     runs-on: ubuntu
     strategy:
       matrix:
-        php: ['8.3', '8.4']
+        php: ['8.4', '8.5']
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@v6
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           tools: composer:snapshot
           coverage: none
-
       - name: Setup Problem Matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
-
-      - uses: ramsey/composer-install@v3
+      - uses: ramsey/composer-install@v4
       - name: Execute PHPUnit
         run: vendor/bin/phpunit
