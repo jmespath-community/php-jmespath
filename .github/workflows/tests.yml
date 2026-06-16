@@ -24,5 +24,6 @@ jobs:
       - name: Setup Problem Matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
       - uses: ramsey/composer-install@v4
+      - run: npm ci
       - name: Execute PHPUnit
         run: vendor/bin/phpunit

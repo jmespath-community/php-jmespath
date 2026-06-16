@@ -46,7 +46,7 @@ final readonly class CaseProvider
     {
         // Set up process.
         // Get path to node.
-        $node = shell_exec('which node') ?? '/home/sam/.nvm/versions/node/v22.14.0/bin/node';
+        $node = shell_exec('which node');
         if (($node === false) || ($node === null)) {
             throw new \RuntimeException('Could not find path to node');
         }

@@ -1,8 +1,5 @@
 {
-  "scripts": {
-    "tokenize": "node tests/tokenize.mjs"
-  },
-  "dependencies": {
-    "@jmespath-community/jmespath": "^1.1.5"
+  "devDependencies": {
+    "@jmespath-community/jmespath": "^1.3.0"
   }
 }

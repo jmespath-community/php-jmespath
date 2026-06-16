@@ -1,4 +1,4 @@
-import { tokenize, compile } from '@jmespath-community/jmespath/dist/jmespath.esm.js';
+import { tokenize, compile } from '@jmespath-community/jmespath';
 import readline from "readline";
 import { stdin as input, stdout as output, stderr } from "node:process";
 
